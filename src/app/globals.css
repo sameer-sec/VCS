@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Hanken Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+html {
+  background: #050505;
+}
+
+body {
+  background-color: #050505;
+  color: #ffffff;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #d9ff00;
+  color: #050505;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d9ff00;
+}
+
+/* Focus visibility for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #d9ff00;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  .container-px {
+    @apply px-6 sm:px-8 lg:px-12;
+  }
+
+  .section-pad {
+    @apply py-24 sm:py-32;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-accent;
+  }
+
+  .glass-card {
+    @apply relative rounded-2xl border border-line bg-bg-card/80 backdrop-blur-sm;
+  }
+
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(217, 255, 0, 0.4),
+      rgba(217, 255, 0, 0) 40%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-bg transition-all duration-300 hover:shadow-glow-sm hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white/[0.02] px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-white/[0.05] hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .text-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   Custom cursor (desktop only)
+   The .custom-cursor-active class is added to <html> by CustomCursor.tsx
+   only after confirming: fine pointer, hover-capable, no touch,
+   and prefers-reduced-motion is NOT set. Until then the native
+   cursor is left completely alone.
+   ============================================================ */
+
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Core dot */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 12px rgba(217, 255, 0, 0.7);
+}
+
+.cursor-dot[data-variant="button"] {
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 18px rgba(217, 255, 0, 0.85);
+}
+
+.cursor-dot[data-variant="card"] {
+  width: 10px;
+  height: 10px;
+  box-shadow: 0 0 14px rgba(217, 255, 0, 0.75);
+}
+
+/* Link variant: dot hollows out into a ring instead of a filled dot */
+.cursor-dot[data-variant="link"] {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  border: 1.5px solid #d9ff00;
+  box-shadow: 0 0 10px rgba(217, 255, 0, 0.5);
+}
+
+/* Video variant: dot grows to hold the "Play" label */
+.cursor-dot[data-variant="video"] {
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 0 28px rgba(217, 255, 0, 0.45);
+}
+
+.cursor-dot[data-variant="video"] .cursor-label {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.08s;
+}
+
+/* Soft glow ring around the dot */
+.cursor-glow {
+  width: 38px;
+  height: 38px;
+  background: radial-gradient(
+    circle,
+    rgba(217, 255, 0, 0.16) 0%,
+    rgba(217, 255, 0, 0.05) 55%,
+    rgba(217, 255, 0, 0) 75%
+  );
+}
+
+.cursor-glow[data-variant="button"] {
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(
+    circle,
+    rgba(217, 255, 0, 0.24) 0%,
+    rgba(217, 255, 0, 0.08) 55%,
+    rgba(217, 255, 0, 0) 75%
+  );
+}
+
+.cursor-glow[data-variant="card"] {
+  width: 48px;
+  height: 48px;
+  background: radial-gradient(
+    circle,
+    rgba(217, 255, 0, 0.18) 0%,
+    rgba(217, 255, 0, 0.06) 55%,
+    rgba(217, 255, 0, 0) 75%
+  );
+}
+
+.cursor-glow[data-variant="link"] {
+  width: 30px;
+  height: 30px;
+}
+
+.cursor-glow[data-variant="video"] {
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(
+    circle,
+    rgba(217, 255, 0, 0.2) 0%,
+    rgba(217, 255, 0, 0.07) 55%,
+    rgba(217, 255, 0, 0) 75%
+  );
+}
+
+/* Hard backstop: even if JS somehow mounted the cursor, respect this at the
+   OS/browser level by never hiding the native cursor when reduced motion is on. */
+@media (prefers-reduced-motion: reduce) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: auto !important;
+  }
+}
+
+/* Custom cursor only ever applies on devices that can truly hover with a
+   precise pointer — extra CSS-level safety net alongside the JS checks. */
+@media (hover: none), (pointer: coarse) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: auto !important;
+  }
+}
